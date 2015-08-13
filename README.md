@@ -2,45 +2,44 @@
 
 Embed [PDF.js](https://mozilla.github.io/pdf.js/) into your angular application, maintaining that look and feel of pdf's we all love. This directive also allows you to scroll through the pdf.  
 
-**Note that the guide below may still contain errors**
-
 
 ## Installation
 
-    bower install angular-pdfjs --save
+     bower install git@github.com:legalthings/angular-pdfjs.git#v0.1.0 --save
 
 
 ## Usage
 
-Note that the order of the scripts being included should stay the same as in the example below.
+Note that the order of the scripts matters. Stick to the order of dependencies as shown in the example below.
 Also note that images, translations and such are being loaded from the `web` folder.
 
-** View **
+**View**
+```html
+<!DOCTYPE html ng-app="app" ng-controller="AppCtrl">
+<html>
+    <head>
+        <title>Angular PDF.js demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!DOCTYPE html ng-app="app" ng-controller="AppCtrl">
-    <html>
-        <head>
-            <title>Angular PDF.js demo</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- pdfjs dependencies -->
+        <link rel="stylesheet" href="web/viewer.css"/>
+        <link rel="resource" type="application/l10n" href="web/locale/locale.properties"/>
+        <script src="vendor/angular/angular.js"></script>
+        <script src="vendor/angular-pdfjs/dist/web/l10n.js"></script>
+        <script src="vendor/angular-pdfjs/dist/build/pdf.js"></script>
+        <script src="vendor/angular-pdfjs/dist/build/pdf.worker.js"></script>
+        <script src="vendor/angular-pdfjs/dist/web/compatibility.js"></script>
+        <script src="vendor/angular-pdfjs/dist/web/debugger.js"></script>
+        <script src="vendor/angular-pdfjs/dist/web/viewer.js"></script>
 
-            <!-- pdfjs dependencies -->
-            <link rel="stylesheet" href="web/viewer.css"/>
-            <link rel="resource" type="application/l10n" href="web/locale/locale.properties"/>
-            <script src="vendor/angular/angular.js"></script>
-            <script src="vendor/angular-pdfjs/dist/web/l10n.js"></script>
-            <script src="vendor/angular-pdfjs/dist/build/pdf.js"></script>
-            <script src="vendor/angular-pdfjs/dist/build/pdf.worker.js"></script>
-            <script src="vendor/angular-pdfjs/dist/web/compatibility.js"></script>
-            <script src="vendor/angular-pdfjs/dist/web/debugger.js"></script>
-            <script src="vendor/angular-pdfjs/dist/web/viewer.js"></script>
-
-            <!-- the directive -->
-            <script src="vendor/angular-pdfjs/dist/pdfjs-viewer.js"></script>
-        </head>
-        <body>
-            <pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer>
-        </body>
-    </html>
+        <!-- the directive -->
+        <script src="vendor/angular-pdfjs/dist/pdfjs-viewer.js"></script>
+    </head>
+    <body>
+        <pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer>
+    </body>
+</html>
+```
 
 The directive takes the following optional attributes to modify the toolbar
 
@@ -48,16 +47,16 @@ The directive takes the following optional attributes to modify the toolbar
 
 Omitting these attributes will by default show the options in the toolbar.
 
-** Controller **
+**Controller**
+```js
+angular.module('app', ['pdfjs']);
 
-    angular.module('app', ['pdfjs']);
-
-    angular.module('app').controller('AppCtrl', function($scope) {
-        $scope.pdf = {
-            src: 'demo/example.pdf'
-        };
-    });
-
+angular.module('app').controller('AppCtrl', function($scope) {
+    $scope.pdf = {
+        src: 'demo/example.pdf'
+    };
+});
+```
 
 ## Demo
 
