@@ -1,0 +1,10 @@
+{
+  "name": "angular-pdfjs",
+  "description": "Embed PDF.js into your angular application",
+  "version": "1.0.0",
+  "dependencies": {
+    "cors": "^2.7.1",
+    "express": "^4.13.3"
+  },
+  "license": "proprietary"
+}

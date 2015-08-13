@@ -1,0 +1,13 @@
+{
+  "name": "angular-pdfjs",
+  "description": "Embed PDF.js into your angular application",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/legalthings/angular-pdfjs.git"
+  },
+  "dependencies": {
+    "angular": "~1.4.3"
+  }
+}
