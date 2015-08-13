@@ -15,16 +15,15 @@ Also note that images, translations and such are being loaded from the `web` fol
 
 **View**
 ```html
-<!DOCTYPE html ng-app="app" ng-controller="AppCtrl">
-<html>
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="AppCtrl">
     <head>
         <title>Angular PDF.js demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- pdfjs dependencies -->
-        <link rel="stylesheet" href="web/viewer.css"/>
-        <link rel="resource" type="application/l10n" href="web/locale/locale.properties"/>
-        <script src="vendor/angular/angular.js"></script>
+        <link rel="stylesheet" href="vendor/angular-pdfjs/dist/web/viewer.css"/>
+        <link rel="resource" type="application/l10n" href="vendor/angular-pdfjs/dist/web/locale/locale.properties"/>
         <script src="vendor/angular-pdfjs/dist/web/l10n.js"></script>
         <script src="vendor/angular-pdfjs/dist/build/pdf.js"></script>
         <script src="vendor/angular-pdfjs/dist/build/pdf.worker.js"></script>
@@ -32,8 +31,10 @@ Also note that images, translations and such are being loaded from the `web` fol
         <script src="vendor/angular-pdfjs/dist/web/debugger.js"></script>
         <script src="vendor/angular-pdfjs/dist/web/viewer.js"></script>
 
-        <!-- the directive -->
+        <!-- angular dependencies -->
+        <script src="vendor/angular/angular.js"></script>
         <script src="vendor/angular-pdfjs/dist/pdfjs-viewer.js"></script>
+        <script src="app.js"></script>
     </head>
     <body>
         <pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer>

@@ -27,6 +27,13 @@
 
 'use strict';
 
+
+
+var SCRIPTS = document.getElementsByTagName('script');
+var PATH = SCRIPTS[SCRIPTS.length-1].src;
+var FILENAME = getFileName(PATH);
+var FOLDER = getLocation(PATH).pathname.replace(FILENAME, '');
+
 var DEFAULT_SCALE_DELTA = 1.1;
 var MIN_SCALE = 0.25;
 var MAX_SCALE = 10.0;
@@ -35,12 +42,11 @@ var SCALE_SELECT_CONTAINER_PADDING = 8;
 var SCALE_SELECT_PADDING = 22;
 var PAGE_NUMBER_LOADING_INDICATOR = 'visiblePageIsLoading';
 var DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000;
-
-PDFJS.imageResourcesPath = './images/';
-PDFJS.workerSrc = '../build/pdf.worker.js';
-PDFJS.cMapUrl = '../web/cmaps/';
+PDFJS.imageResourcesPath = FOLDER + 'images/';
+PDFJS.workerSrc = FOLDER + '../build/pdf.worker.js';
+PDFJS.cMapUrl = FOLDER + 'cmaps/';
 PDFJS.cMapPacked = true;
-PDFJS.DEFAULT_URL = 'demo/example.pdf';
+PDFJS.DEFAULT_URL = FOLDER + '../demo/example.pdf';
 
 var mozL10n = document.mozL10n || document.webL10n;
 
@@ -111,6 +117,15 @@ function getFileName(url) {
     query > 0 ? query : url.length);
   return url.substring(url.lastIndexOf('/', end) + 1, end);
 }
+
+function getLocation (href) {
+    var location = document.createElement("a");
+    location.href = href;
+
+    if (location.host == '') location.href = location.href;
+
+    return location;
+};
 
 /**
  * Returns scale factor for the canvas. It makes sense for the HiDPI displays.

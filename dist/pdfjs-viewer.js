@@ -3,11 +3,14 @@
  * https://github.com/legalthings/angular-pdfjs
  * Copyright (c) 2015 ; Licensed MIT
  */
+
+'use strict';
+
 angular.module('pdfjs', []);
 
 angular.module('pdfjs').directive('pdfjsViewer', [function () {
     return {
-        templateUrl: 'template.html',
+        templateUrl: file.folder + 'template.html',
         restrict: 'E',
         link: function ($scope, $element, $attrs) {
             $scope.$watch(function () {
@@ -40,3 +43,26 @@ angular.module('pdfjs').directive('pdfjsViewer', [function () {
         }
     };
 }]);
+
+var file = {};
+file.scripts = document.getElementsByTagName('script');
+file.path = file.scripts[file.scripts.length-1].src;
+file.filename = getFileName(file.path);
+file.folder = getLocation(file.path).pathname.replace(file.filename, '');
+
+function getFileName(url) {
+  var anchor = url.indexOf('#');
+  var query = url.indexOf('?');
+  var end = Math.min(anchor > 0 ? anchor : url.length, query > 0 ? query : url.length);
+
+  return url.substring(url.lastIndexOf('/', end) + 1, end);
+}
+
+function getLocation (href) {
+    var location = document.createElement("a");
+    location.href = href;
+
+    if (location.host == '') location.href = location.href;
+
+    return location;
+};
