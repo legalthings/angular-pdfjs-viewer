@@ -5,7 +5,7 @@ Embed [PDF.js](https://mozilla.github.io/pdf.js/) into your angular application,
 
 ## Installation
 
-     bower install git@github.com:legalthings/angular-pdfjs.git#v0.1.0 --save
+     bower install git@github.com:legalthings/angular-pdfjs.git --save
 
 
 ## Usage
