@@ -70,3 +70,10 @@ Afterwards run the server like so.
     node server.js
 
 The server will be running on localhost:8080
+
+## Maintenance
+
+Download the latest source from [mozilla/pdf.js](https://github.com/mozilla/pdf.js/releases/latest).
+Afterwards follow their [instructions](https://github.com/mozilla/pdf.js#building-pdfjs) on how to build the source to create two production-ready scripts. This directive is built on top of these production-ready scripts, not the [unbuild source code](https://github.com/mozilla/pdf.js).
+
+After building the project, apply the changes shown in this [commit](https://github.com/legalthings/angular-pdfjs/commit/bb2fc1614e68d83120239de6531499ded7a001da) on top of the builded project and the directive should be up to date with the latest mozilla/pdf.js version.
