@@ -16,28 +16,40 @@ Also note that images, translations and such are being loaded from the `web` fol
 **View**
 ```html
 <!DOCTYPE html>
-<html ng-app="app" ng-controller="AppCtrl">
+<html lang="en" data-ng-app="app" ng-controller="AppCtrl">
     <head>
+        <meta charset="utf-8"/>
         <title>Angular PDF.js demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- pdfjs dependencies -->
-        <link rel="stylesheet" href="vendor/angular-pdfjs/dist/web/viewer.css"/>
-        <link rel="resource" type="application/l10n" href="vendor/angular-pdfjs/dist/web/locale/locale.properties"/>
-        <script src="vendor/angular-pdfjs/dist/web/l10n.js"></script>
-        <script src="vendor/angular-pdfjs/dist/build/pdf.js"></script>
-        <script src="vendor/angular-pdfjs/dist/build/pdf.worker.js"></script>
-        <script src="vendor/angular-pdfjs/dist/web/compatibility.js"></script>
-        <script src="vendor/angular-pdfjs/dist/web/debugger.js"></script>
-        <script src="vendor/angular-pdfjs/dist/web/viewer.js"></script>
+        <link rel="stylesheet" href="bower_components/pdf.js-viewer/viewer.css"/>
+        <script src="bower_components/pdf.js-viewer/pdf.worker.js"></script>
+        <script src="bower_components/pdf.js-viewer/pdf.js"></script>
 
         <!-- angular dependencies -->
-        <script src="vendor/angular/angular.js"></script>
-        <script src="vendor/angular-pdfjs/dist/pdfjs-viewer.js"></script>
-        <script src="app.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="dist/pdfjs-viewer.js"></script>
+        <script src="demo/app.js"></script>
+
+        <style>
+          html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+          }
+
+          .some-pdf-container {
+            width: 100%;
+            height: 100%;
+          }
+        </style>
     </head>
     <body>
-        <pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer>
+        <div class='some-pdf-container'>
+            <pdfjs-viewer src="{{ pdf.src }}" download="true" print="false" open="false"></pdfjs-viewer>
+        </div>
     </body>
 </html>
 ```

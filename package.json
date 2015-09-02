@@ -3,8 +3,12 @@
   "description": "Embed PDF.js into your angular application",
   "version": "1.0.0",
   "dependencies": {
+    "bower": "^1.5.2",
     "cors": "^2.7.1",
     "express": "^4.13.3"
+  },
+  "scripts": {
+    "postinstall": "node_modules/.bin/bower install"
   },
   "license": "proprietary"
 }

@@ -10,9 +10,11 @@ angular.module('pdfjs', []);
 
 angular.module('pdfjs').directive('pdfjsViewer', [function () {
     return {
-        templateUrl: file.folder + 'template.html',
+        templateUrl: file.folder + '../bower_components/pdf.js-viewer/viewer.html',
         restrict: 'E',
         link: function ($scope, $element, $attrs) {
+            $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
+
             $scope.$watch(function () {
                 return $attrs.src;
             }, function () {

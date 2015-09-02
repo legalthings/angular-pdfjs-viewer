@@ -8,6 +8,7 @@
     "url": "git://github.com/legalthings/angular-pdfjs.git"
   },
   "dependencies": {
-    "angular": "~1.4.3"
+    "angular": "~1.4.3",
+    "pdf.js-viewer": "https://github.com/legalthings/pdf.js-viewer.git#0.1.0"
   }
 }
