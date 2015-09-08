@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.static(__dirname));
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/demo/index.html');
+    res.sendFile(__dirname + '/index.html');
 });
 
 server.listen(8080, function () {

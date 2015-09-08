@@ -22,15 +22,9 @@ Also note that images, translations and such are being loaded from the `web` fol
         <title>Angular PDF.js demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- pdfjs dependencies -->
-        <link rel="stylesheet" href="bower_components/pdf.js-viewer/viewer.css"/>
-        <script src="bower_components/pdf.js-viewer/pdf.worker.js"></script>
-        <script src="bower_components/pdf.js-viewer/pdf.js"></script>
-
-        <!-- angular dependencies -->
         <script src="bower_components/angular/angular.js"></script>
-        <script src="dist/pdfjs-viewer.js"></script>
-        <script src="demo/app.js"></script>
+        <script src="bower_components/angular-pdfjs/dist/pdfjs-viewer.js"></script>
+        <script src="app.js"></script>
 
         <style>
           html, body {
@@ -66,7 +60,7 @@ angular.module('app', ['pdfjs']);
 
 angular.module('app').controller('AppCtrl', function($scope) {
     $scope.pdf = {
-        src: 'demo/example.pdf'
+        src: 'example.pdf'
     };
 });
 ```
@@ -75,7 +69,9 @@ angular.module('app').controller('AppCtrl', function($scope) {
 
 You can test out a demo of this directive. You must run the node server first due to CORS reasons. First make sure the dependencies are installed.
 
+    cd demo
     npm install
+    bower install
 
 Afterwards run the server like so.
 
