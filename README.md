@@ -22,8 +22,12 @@ Also note that images, translations and such are being loaded from the `web` fol
         <title>Angular PDF.js demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-pdfjs/dist/pdfjs-viewer.js"></script>
+        <script src="vendor/pdf.js-viewer/pdf.worker.js"></script>
+        <script src="vendor/pdf.js-viewer/pdf.js"></script>
+        <link rel="stylesheet" href="vendor/pdf.js-viewer/viewer.css">
+
+        <script src="vendor/angular/angular.js"></script>
+        <script src="vendor/angular-pdfjs/dist/angular-pdfjs.js"></script>
         <script src="app.js"></script>
 
         <style>
@@ -42,7 +46,8 @@ Also note that images, translations and such are being loaded from the `web` fol
     </head>
     <body>
         <div class='some-pdf-container'>
-            <pdfjs-viewer src="{{ pdf.src }}" download="true" print="false" open="false"></pdfjs-viewer>
+            <pdfjs-viewer src="{{ pdf.src }}" download="true" print="false" open="false"
+            cmap-dir="vendor/pdf.js-viewer/cmaps" image-dir="vendor/pdf.js-viewer/images"></pdfjs-viewer>
         </div>
     </body>
 </html>

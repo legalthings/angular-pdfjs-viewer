@@ -1,0 +1,11 @@
+{
+  "name": "angular-pdfjs",
+  "description": "Embed PDF.js into your angular application",
+  "version": "1.0.0",
+  "dependencies": {},
+  "license": "proprietary",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-replace": "^0.10.2"
+  }
+}
