@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "angular": "~1.4.3",
-    "pdf.js-viewer": "https://github.com/legalthings/pdf.js-viewer.git#0.1.0"
+    "pdf.js-viewer": "https://github.com/legalthings/pdf.js-viewer.git#0.2.0"
   }
 }
