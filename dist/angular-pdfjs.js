@@ -338,9 +338,7 @@ angular.module('pdfjs').directive('pdfjsViewer', [function () {
                 if ($attrs.width) document.getElementById('outerContainer').style.width = $attrs.width;
                 if ($attrs.height) document.getElementById('outerContainer').style.height = $attrs.height;
 
-                if (!PDFViewerApplication.initialized) return PDFJS.webViewerLoad($attrs.src);
-
-                PDFViewerApplication.open($attrs.src, 0);
+                PDFJS.webViewerLoad($attrs.src);
             });
         }
     };
