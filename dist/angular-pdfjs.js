@@ -8,7 +8,7 @@
 
 angular.module('pdfjs', []);
 
-angular.module('pdfjs').directive('pdfjsViewer', [function () {
+angular.module('pdfjs').directive('pdfjsViewer', ['$interval', function ($interval) {
     return {
         template: '<div id="outerContainer">\n' +
 '\n' +
@@ -300,8 +300,32 @@ angular.module('pdfjs').directive('pdfjsViewer', [function () {
 '</div> <!-- outerContainer -->\n' +
 '\n',
         restrict: 'E',
+        scope: {
+            onInit: '&onInit'
+        },
         link: function ($scope, $element, $attrs) {
             $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
+
+            function onPdfInit() {
+                if ($attrs.removeMouseListeners === "true") {
+                    window.removeEventListener('DOMMouseScroll', handleMouseWheel);
+                    window.removeEventListener('mousewheel', handleMouseWheel);
+                }
+
+                if ($attrs.removeKeyListeners === 'true') {
+                }
+                $scope.onInit();
+            }
+
+            var poller = $interval(function(){
+                if (PDFViewerApplication.pdfViewer.pagesCount > 0) {
+                    console.log('done polling');
+                    $interval.cancel(poller);
+                    poller = undefined;
+                    onPdfInit();
+                }
+
+            }, 100);
 
             $scope.$watch(function () {
                 return $attrs.src;
