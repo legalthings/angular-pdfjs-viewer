@@ -31,7 +31,9 @@
                     if ($attrs.removeMouseListeners === "true") {
                         window.removeEventListener('DOMMouseScroll', handleMouseWheel);
                         window.removeEventListener('mousewheel', handleMouseWheel);
-                        angular.element('.page').children().css('pointer-events', 'none');
+                        
+                        var pages = document.querySelectorAll('.page');
+                        angular.element(pages).children().css('pointer-events', 'none');
                     }
                     if ($scope.onInit) $scope.onInit();
                 }
@@ -42,9 +44,13 @@
                         numLoaded = 0;
                         $scope.scale = PDFViewerApplication.pdfViewer.currentScale;
                     }
+                    
+                    var pages = document.querySelectorAll('.page');
+                    angular.forEach(pages, function (i, page) {
+                        var element = angular.element(page);
+                        if (!element.data('loaded')) return;
                         
-                    angular.element('.page[data-loaded="true"]').each(function (i, page) {
-                        var pageNum = angular.element(page).attr('data-page-number');
+                        var pageNum = element.data('page-number');
                         if (pageNum in loaded) return;
 
                         if (!initialised) onPdfInit();

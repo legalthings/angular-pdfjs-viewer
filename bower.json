@@ -1,6 +1,6 @@
 {
-  "name": "angular-pdfjs",
-  "description": "Embed PDF.js into your angular application",
+  "name": "angular-pdfjs-viewer",
+  "description": "Embed PDF.js viewer into your angular application",
   "license": "MIT",
   "main": "dist/angular-pdfjs.js",
   "repository": {

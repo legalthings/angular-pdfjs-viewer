@@ -1,17 +1,17 @@
-# PDF.js Angular directive
+# PDF.js viewer Angular directive
 
-Embed [PDF.js](https://mozilla.github.io/pdf.js/) into your angular application, maintaining that look and feel of pdf's we all love. This directive also allows you to scroll through the pdf.  
-
+Embed [PDF.js](https://mozilla.github.io/pdf.js/) viewer into your angular application, maintaining that look and feel
+of pdf's we all love. The directive embeds the [full viewer](https://mozilla.github.io/pdf.js/web/viewer.html), which
+allows you to scroll through the pdf.
 
 ## Installation
 
-     bower install git@github.com:legalthings/angular-pdfjs.git --save
-
+     bower install angular-pdfjs-viewer --save
 
 ## Usage
 
-Note that the order of the scripts matters. Stick to the order of dependencies as shown in the example below.
-Also note that images, translations and such are being loaded from the `web` folder.
+Note that the order of the scripts matters. Stick to the order of dependencies as shown in the example below. Also note
+that images, translations and such are being loaded from the `web` folder.
 
 **View**
 ```html
@@ -46,12 +46,17 @@ Also note that images, translations and such are being loaded from the `web` fol
     </head>
     <body>
         <div class='some-pdf-container'>
-            <pdfjs-viewer src="{{ pdf.src }}" download="true" print="false" open="false"
-            cmap-dir="vendor/pdf.js-viewer/cmaps" image-dir="vendor/pdf.js-viewer/images"></pdfjs-viewer>
+            <pdfjs-viewer src="{{ pdf.src }}" scale="scale"
+                          download="true" print="false" open="false"
+                          on-init="onInit()" on-page-load="onPageLoad(page)s"
+                          cmap-dir="vendor/pdf.js-viewer/cmaps" image-dir="vendor/pdf.js-viewer/images">
+            </pdfjs-viewer>
         </div>
     </body>
 </html>
 ```
+
+The `scale` attribute can be used to obtain the current scale (zoom level) of the PDF. This is read only.
 
 The directive takes the following optional attributes to modify the toolbar
 
@@ -59,20 +64,37 @@ The directive takes the following optional attributes to modify the toolbar
 
 Omitting these attributes will by default show the options in the toolbar.
 
+The `on-init` function is called when PDF.JS is fully loaded. The `on-page-load` function is each time a page is
+loaded and will pass the page number. When the scale changes all pages are unloaded, so `on-page-load` will be called
+again for each page.
+
 **Controller**
 ```js
 angular.module('app', ['pdfjs']);
 
 angular.module('app').controller('AppCtrl', function($scope) {
     $scope.pdf = {
-        src: 'example.pdf'
+        src: 'example.pdf',
+    };
+    
+    $scope.$watch('scale', function() {
+      ...
+    });
+    
+    $scope.onInit = function() {
+      ...
+    };
+    
+    $scope.onPageLoad = function(page) {
+      ...
     };
 });
 ```
 
 ## Demo
 
-You can test out a demo of this directive. You must run the node server first due to CORS reasons. First make sure the dependencies are installed.
+You can test out a demo of this directive. You must run the node server first due to CORS. First make sure
+ the dependencies are installed.
 
     cd demo
     npm install
@@ -84,9 +106,3 @@ Afterwards run the server like so.
 
 The server will be running on localhost:8080
 
-## Maintenance
-
-Download the latest source from [mozilla/pdf.js](https://github.com/mozilla/pdf.js/releases/latest).
-Afterwards follow their [instructions](https://github.com/mozilla/pdf.js#building-pdfjs) on how to build the source to create two production-ready scripts. This directive is built on top of these production-ready scripts, not the [unbuild source code](https://github.com/mozilla/pdf.js).
-
-After building the project, apply the changes shown in this [commit](https://github.com/legalthings/angular-pdfjs/commit/bb2fc1614e68d83120239de6531499ded7a001da) on top of the builded project and the directive should be up to date with the latest mozilla/pdf.js version.
