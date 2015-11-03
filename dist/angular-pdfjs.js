@@ -4,13 +4,14 @@
  * Copyright (c) 2015 ; Licensed MIT
  */
 
-'use strict';
++function () {
+    'use strict';
 
-angular.module('pdfjs', []);
+    angular.module('pdfjs', []);
 
-angular.module('pdfjs').directive('pdfjsViewer', [function () {
-    return {
-        template: '<div id="outerContainer">\n' +
+    angular.module('pdfjs').directive('pdfjsViewer', ['$interval', '$timeout', function ($interval, $timeout) {
+        return {
+            template: '<div id="outerContainer">\n' +
 '\n' +
 '  <div id="sidebarContainer">\n' +
 '    <div id="toolbarSidebar">\n' +
@@ -299,70 +300,118 @@ angular.module('pdfjs').directive('pdfjsViewer', [function () {
 '\n' +
 '</div> <!-- outerContainer -->\n' +
 '\n',
-        restrict: 'E',
-        link: function ($scope, $element, $attrs) {
-            $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
+            restrict: 'E',
+            scope: {
+                onInit: '&',
+                onPageLoad: '&',
+                scale: '='
+            },
+            link: function ($scope, $element, $attrs) {
+                $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
+                
+                var initialised = false;
+                var loaded = {};
+                var numLoaded = 0;
 
-            $scope.$watch(function () {
-                return $attrs.src;
-            }, function () {
-                if (!$attrs.src) return;
-
-                if ($attrs.localeDir) {
-                    // not sure how to set locale dir in PDFJS
+                function onPdfInit() {
+                    initialised = true;
+                    
+                    if ($attrs.removeMouseListeners === "true") {
+                        window.removeEventListener('DOMMouseScroll', handleMouseWheel);
+                        window.removeEventListener('mousewheel', handleMouseWheel);
+                        angular.element('.page').children().css('pointer-events', 'none');
+                    }
+                    if ($scope.onInit) $scope.onInit();
                 }
 
-                if ($attrs.cmapDir) {
-                    PDFJS.cMapUrl = $attrs.cmapDir;
-                }
+                $interval(function () {
+                    if ($scope.scale !== PDFViewerApplication.pdfViewer.currentScale) {
+                        loaded = {};
+                        numLoaded = 0;
+                        $scope.scale = PDFViewerApplication.pdfViewer.currentScale;
+                    }
+                        
+                    angular.element('.page[data-loaded="true"]').each(function (i, page) {
+                        var pageNum = angular.element(page).attr('data-page-number');
+                        if (pageNum in loaded) return;
 
-                if ($attrs.imageDir) {
-                    PDFJS.imageResourcesPath = $attrs.imageDir;
-                }
+                        if (!initialised) onPdfInit();
+                        
+                        loaded[pageNum] = true;
+                        numLoaded++;
 
-                if ($attrs.open === 'false') {
-                    document.getElementById('openFile').setAttribute('hidden', 'true');
-                    document.getElementById('secondaryOpenFile').setAttribute('hidden', 'true');
-                }
+                        if ($scope.onPageLoad) {
+                            $scope.onPageLoad({page: pageNum});
+                        }
+                    });
+                }, 200);
 
-                if ($attrs.download === 'false') {
-                    document.getElementById('download').setAttribute('hidden', 'true');
-                    document.getElementById('secondaryDownload').setAttribute('hidden', 'true');
-                }
+                $scope.$watch(function () {
+                    return $attrs.src;
+                }, function () {
+                    if (!$attrs.src) return;
 
-                if ($attrs.print === 'false') {
-                    document.getElementById('print').setAttribute('hidden', 'true');
-                    document.getElementById('secondaryPrint').setAttribute('hidden', 'true');
-                }
+                    if ($attrs.localeDir) {
+                        // not sure how to set locale dir in PDFJS
+                    }
 
-                if ($attrs.width) document.getElementById('outerContainer').style.width = $attrs.width;
-                if ($attrs.height) document.getElementById('outerContainer').style.height = $attrs.height;
+                    if ($attrs.cmapDir) {
+                        PDFJS.cMapUrl = $attrs.cmapDir;
+                    }
 
-                PDFJS.webViewerLoad($attrs.src);
-            });
-        }
-    };
-}]);
+                    if ($attrs.imageDir) {
+                        PDFJS.imageResourcesPath = $attrs.imageDir;
+                    }
 
-var file = {};
-file.scripts = document.querySelectorAll('script[src]');
-file.path = file.scripts[file.scripts.length-1].src;
-file.filename = getFileName(file.path);
-file.folder = getLocation(file.path).pathname.replace(file.filename, '');
+                    if ($attrs.open === 'false') {
+                        document.getElementById('openFile').setAttribute('hidden', 'true');
+                        document.getElementById('secondaryOpenFile').setAttribute('hidden', 'true');
+                    }
 
-function getFileName(url) {
-  var anchor = url.indexOf('#');
-  var query = url.indexOf('?');
-  var end = Math.min(anchor > 0 ? anchor : url.length, query > 0 ? query : url.length);
+                    if ($attrs.download === 'false') {
+                        document.getElementById('download').setAttribute('hidden', 'true');
+                        document.getElementById('secondaryDownload').setAttribute('hidden', 'true');
+                    }
 
-  return url.substring(url.lastIndexOf('/', end) + 1, end);
-}
+                    if ($attrs.print === 'false') {
+                        document.getElementById('print').setAttribute('hidden', 'true');
+                        document.getElementById('secondaryPrint').setAttribute('hidden', 'true');
+                    }
 
-function getLocation (href) {
-    var location = document.createElement("a");
-    location.href = href;
+                    if ($attrs.width) {
+                        document.getElementById('outerContainer').style.width = $attrs.width;
+                    }
 
-    if (location.host == '') location.href = location.href;
+                    if ($attrs.height) {
+                        document.getElementById('outerContainer').style.height = $attrs.height;
+                    }
+                    
+                    PDFJS.webViewerLoad($attrs.src);
+                });
+            }
+        };
+    }]);
 
-    return location;
-};
+    var file = {};
+    file.scripts = document.querySelectorAll('script[src]');
+    file.path = file.scripts[file.scripts.length - 1].src;
+    file.filename = getFileName(file.path);
+    file.folder = getLocation(file.path).pathname.replace(file.filename, '');
+
+    function getFileName(url) {
+        var anchor = url.indexOf('#');
+        var query = url.indexOf('?');
+        var end = Math.min(anchor > 0 ? anchor : url.length, query > 0 ? query : url.length);
+
+        return url.substring(url.lastIndexOf('/', end) + 1, end);
+    }
+
+    function getLocation(href) {
+        var location = document.createElement("a");
+        location.href = href;
+
+        if (!location.host) location.href = location.href; // Weird assigned
+
+        return location;
+    }
+}();
