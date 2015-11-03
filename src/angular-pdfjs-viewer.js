@@ -7,9 +7,9 @@
 +function () {
     'use strict';
 
-    angular.module('pdfjs', []);
+    angular.module('pdfjsViewer', []);
 
-    angular.module('pdfjs').directive('pdfjsViewer', ['$interval', '$timeout', function ($interval, $timeout) {
+    angular.module('pdfjsViewer').directive('pdfjsViewer', ['$interval', '$timeout', function ($interval, $timeout) {
         return {
             templateUrl: file.folder + '../../pdf.js-viewer/viewer.html',
             restrict: 'E',
