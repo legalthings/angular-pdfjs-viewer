@@ -33,7 +33,9 @@
                         window.removeEventListener('mousewheel', handleMouseWheel);
                         
                         var pages = document.querySelectorAll('.page');
-                        angular.element(pages).children().css('pointer-events', 'none');
+                        angular.forEach(pages, function (page) {
+                          angular.element(page).children().css('pointer-events', 'none');
+                        });
                     }
                     if ($scope.onInit) $scope.onInit();
                 }
@@ -46,7 +48,7 @@
                     }
                     
                     var pages = document.querySelectorAll('.page');
-                    angular.forEach(pages, function (i, page) {
+                    angular.forEach(pages, function (page) {
                         var element = angular.element(page);
                         if (!element.data('loaded')) return;
                         
