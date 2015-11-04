@@ -9,7 +9,7 @@
 
     angular.module('pdfjsViewer', []);
 
-    angular.module('pdfjsViewer').directive('pdfjsViewer', ['$interval', '$timeout', function ($interval, $timeout) {
+    angular.module('pdfjsViewer').directive('pdfjsViewer', ['$interval', '$timeout', function ($interval) {
         return {
             template: '<div id="outerContainer">\n' +
 '\n' +
@@ -329,10 +329,16 @@
                 }
 
                 $interval(function () {
-                    if ($scope.scale !== PDFViewerApplication.pdfViewer.currentScale) {
-                        loaded = {};
-                        numLoaded = 0;
-                        $scope.scale = PDFViewerApplication.pdfViewer.currentScale;
+                    var pdfViewer = window.PDFViewerApplication.pdfViewer;
+                    
+                    if (pdfViewer) {
+                        if ($scope.scale !== pdfViewer.currentScale) {
+                            loaded = {};
+                            numLoaded = 0;
+                            $scope.scale = pdfViewer.currentScale;
+                        }
+                    } else {
+                        console.warn("PDFViewerApplication.pdfViewer is not set");
                     }
                     
                     var pages = document.querySelectorAll('.page');
@@ -400,26 +406,5 @@
         };
     }]);
 
-    var file = {};
-    file.scripts = document.querySelectorAll('script[src]');
-    file.path = file.scripts[file.scripts.length - 1].src;
-    file.filename = getFileName(file.path);
-    file.folder = getLocation(file.path).pathname.replace(file.filename, '');
-
-    function getFileName(url) {
-        var anchor = url.indexOf('#');
-        var query = url.indexOf('?');
-        var end = Math.min(anchor > 0 ? anchor : url.length, query > 0 ? query : url.length);
-
-        return url.substring(url.lastIndexOf('/', end) + 1, end);
-    }
-
-    function getLocation(href) {
-        var location = document.createElement("a");
-        location.href = href;
-
-        if (!location.host) location.href = location.href; // Weird assigned
-
-        return location;
-    }
+    // 
 }();

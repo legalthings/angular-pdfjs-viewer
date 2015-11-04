@@ -21,6 +21,10 @@ module.exports = function (grunt) {
               	var content = grunt.file.read('vendor/pdf.js-viewer/viewer.html');
               	return 'template: ' + escapeContent(content, '\'') + ',';
               }
+            },
+            {
+              match: /=== get current script file ===[\w\W]+======/,
+              replacement: ''
             }
           ]
         },
