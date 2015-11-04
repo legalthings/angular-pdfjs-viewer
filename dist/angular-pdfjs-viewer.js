@@ -322,14 +322,14 @@
                         
                         var pages = document.querySelectorAll('.page');
                         angular.forEach(pages, function (page) {
-                          angular.element(page).children().css('pointer-events', 'none');
+                            angular.element(page).children().css('pointer-events', 'none');
                         });
                     }
                     if ($scope.onInit) $scope.onInit();
                 }
 
                 $interval(function () {
-                    var pdfViewer = window.PDFViewerApplication.pdfViewer;
+                    var pdfViewer = PDFViewerApplication.pdfViewer;
                     
                     if (pdfViewer) {
                         if ($scope.scale !== pdfViewer.currentScale) {
