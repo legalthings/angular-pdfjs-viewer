@@ -9,7 +9,7 @@
 
     angular.module('pdfjsViewer', []);
 
-    angular.module('pdfjsViewer').directive('pdfjsViewer', ['$interval', '$timeout', function ($interval, $timeout) {
+    angular.module('pdfjsViewer').directive('pdfjsViewer', ['$interval', '$timeout', function ($interval) {
         return {
             templateUrl: file.folder + '../../pdf.js-viewer/viewer.html',
             restrict: 'E',
@@ -34,17 +34,23 @@
                         
                         var pages = document.querySelectorAll('.page');
                         angular.forEach(pages, function (page) {
-                          angular.element(page).children().css('pointer-events', 'none');
+                            angular.element(page).children().css('pointer-events', 'none');
                         });
                     }
                     if ($scope.onInit) $scope.onInit();
                 }
 
                 $interval(function () {
-                    if ($scope.scale !== PDFViewerApplication.pdfViewer.currentScale) {
-                        loaded = {};
-                        numLoaded = 0;
-                        $scope.scale = PDFViewerApplication.pdfViewer.currentScale;
+                    var pdfViewer = window.PDFViewerApplication.pdfViewer;
+                    
+                    if (pdfViewer) {
+                        if ($scope.scale !== pdfViewer.currentScale) {
+                            loaded = {};
+                            numLoaded = 0;
+                            $scope.scale = pdfViewer.currentScale;
+                        }
+                    } else {
+                        console.warn("PDFViewerApplication.pdfViewer is not set");
                     }
                     
                     var pages = document.querySelectorAll('.page');
@@ -112,6 +118,7 @@
         };
     }]);
 
+    // === get current script file ===
     var file = {};
     file.scripts = document.querySelectorAll('script[src]');
     file.path = file.scripts[file.scripts.length - 1].src;
@@ -134,4 +141,5 @@
 
         return location;
     }
+    // ======
 }();
