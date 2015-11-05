@@ -365,8 +365,8 @@
                 }, function () {
                     if (!$attrs.src) return;
 
-                    if ($attrs.localeDir) {
-                        // not sure how to set locale dir in PDFJS
+                    if ($attrs.workerSrc) {
+                        PDFJS.workerSrc = $attrs.workerSrc;
                     }
 
                     if ($attrs.cmapDir) {
