@@ -91,6 +91,9 @@ angular.module('app').controller('AppCtrl', function($scope) {
 });
 ```
 
+_If `onPageLoad()` returns `false`, the page will not be marked as loaded and `onPageLoad` will be called again for
+that page on the next (200ms) interval._
+
 ## Demo
 
 You can test out a demo of this directive. You must run the node server first due to CORS. First make sure

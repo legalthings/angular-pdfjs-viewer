@@ -9,14 +9,14 @@
 
     angular.module('pdfjsViewer', []);
 
-    angular.module('pdfjsViewer').directive('pdfjsViewer', ['$interval', '$timeout', function ($interval) {
+    angular.module('pdfjsViewer').directive('pdfjsViewer', ['$interval', function ($interval) {
         return {
             templateUrl: file.folder + '../../pdf.js-viewer/viewer.html',
             restrict: 'E',
             scope: {
                 onInit: '&',
                 onPageLoad: '&',
-                scale: '='
+                scale: '=',
             },
             link: function ($scope, $element, $attrs) {
                 $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
@@ -39,7 +39,7 @@
                     }
                     if ($scope.onInit) $scope.onInit();
                 }
-
+                
                 $interval(function () {
                     var pdfViewer = PDFViewerApplication.pdfViewer;
                     
@@ -56,19 +56,23 @@
                     var pages = document.querySelectorAll('.page');
                     angular.forEach(pages, function (page) {
                         var element = angular.element(page);
-                        if (!element.data('loaded')) return;
-                        
                         var pageNum = element.data('page-number');
+                        
+                        if (!element.data('loaded')) {
+                            delete loaded[pageNum];
+                            return;
+                        }
+                        
                         if (pageNum in loaded) return;
 
                         if (!initialised) onPdfInit();
                         
+                        if ($scope.onPageLoad) {
+                            if ($scope.onPageLoad({page: pageNum}) === false) return;
+                        }
+                        
                         loaded[pageNum] = true;
                         numLoaded++;
-
-                        if ($scope.onPageLoad) {
-                            $scope.onPageLoad({page: pageNum});
-                        }
                     });
                 }, 200);
 
@@ -77,8 +81,8 @@
                 }, function () {
                     if (!$attrs.src) return;
 
-                    if ($attrs.workerSrc) {
-                        PDFJS.workerSrc = $attrs.workerSrc;
+                    if ($attrs.localeDir) {
+                        // not sure how to set locale dir in PDFJS
                     }
 
                     if ($attrs.cmapDir) {
