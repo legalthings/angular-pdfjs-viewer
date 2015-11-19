@@ -40,7 +40,7 @@
                     if ($scope.onInit) $scope.onInit();
                 }
                 
-                $interval(function () {
+                var poller = $interval(function () {
                     var pdfViewer = PDFViewerApplication.pdfViewer;
                     
                     if (pdfViewer) {
@@ -75,6 +75,10 @@
                         numLoaded++;
                     });
                 }, 200);
+
+                $element.on('$destroy', function() {
+                    $interval.cancel(poller);
+                });
 
                 $scope.$watch(function () {
                     return $attrs.src;
