@@ -22,12 +22,11 @@ that images, translations and such are being loaded from the `web` folder.
         <title>Angular PDF.js demo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <script src="vendor/pdf.js-viewer/pdf.worker.js"></script>
-        <script src="vendor/pdf.js-viewer/pdf.js"></script>
+        <script src="bower_components/pdf.js-viewer/pdf.js"></script>
         <link rel="stylesheet" href="vendor/pdf.js-viewer/viewer.css">
 
-        <script src="vendor/angular/angular.js"></script>
-        <script src="vendor/angular-pdfjs/dist/angular-pdfjs.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-pdfjs/dist/angular-pdfjs-viewer.js"></script>
         <script src="app.js"></script>
 
         <style>
@@ -48,8 +47,7 @@ that images, translations and such are being loaded from the `web` folder.
         <div class='some-pdf-container'>
             <pdfjs-viewer src="{{ pdf.src }}" scale="scale"
                           download="true" print="false" open="false"
-                          on-init="onInit()" on-page-load="onPageLoad(page)s"
-                          cmap-dir="vendor/pdf.js-viewer/cmaps" image-dir="vendor/pdf.js-viewer/images">
+                          on-init="onInit()" on-page-load="onPageLoad(page)">
             </pdfjs-viewer>
         </div>
     </body>
@@ -108,4 +106,26 @@ Afterwards run the server like so.
     node server.js
 
 The server will be running on localhost:8080
+
+## Advanced configuration
+
+By default the location of PDF.js assets are automatically determined. However if you place them on alternative
+locations they may not be found. If so, you can configure these locations.
+
+You may disable using the [Web Workers API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API).
+This is useful if you want to add pdf.worker.js to your concatinated JavaScript file. However this will have a
+negative effect on the runtime performance.
+
+    angular.module('app').config(function(pdfjsViewerConfigProvider) {
+      pdfjsViewerConfigProvider.setWorkerSrc("/assets/pdf.js-viewer/pdf.worker.js");
+      pdfjsViewerConfigProvider.setCmapDir("/assets/pdf.js-viewer/cmaps");
+      pdfjsViewerConfigProvider.setImageDir("/assets/pdf.js-viewer/images");
+      
+      pdfjsViewerConfigProvider.disableWorker();
+    });
+
+Note that a number of images used in the PDF.js viewer are loaded by the `viewer.css`. You can't configure these
+through JavaScript. Instead you need to compile the `viewer.less` file as
+
+    lessc --global-var='pdfjsImagePath=/assets/pdf.js-viewer/images' viewer.less viewer.css
 

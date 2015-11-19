@@ -7,9 +7,57 @@
 +function () {
     'use strict';
 
-    angular.module('pdfjsViewer', []);
+    var module = angular.module('pdfjsViewer', []);
+    
+    module.provider('pdfjsViewerConfig', function() {
+        var config = {
+            workerSrc: null,
+            cmapDir: null,
+            imageResourcesPath: null,
+            disableWorker: false
+        };
+        
+        this.setWorkerSrc = function(src) {
+            config.workerSrc = src;
+        };
+        
+        this.setCmapDir = function(dir) {
+            config.cmapDir = dir;
+        };
+        
+        this.setImageDir = function(dir) {
+            config.imageDir = dir;
+        };
+        
+        this.disableWorker = function(value) {
+            if (typeof value === 'undefined') value = true;
+            config.disableWorker = value;
+        }
+        
+        this.$get = function() {
+            return config;
+        }
+    });
+    
+    module.run(function(pdfjsViewerConfig) {
+        if (pdfjsViewerConfig.workerSrc) {
+            PDFJS.workerSrc = pdfjsViewerConfig.workerSrc;
+        }
 
-    angular.module('pdfjsViewer').directive('pdfjsViewer', ['$interval', function ($interval) {
+        if (pdfjsViewerConfig.cmapDir) {
+            PDFJS.cMapUrl = pdfjsViewerConfig.cmapDir;
+        }
+
+        if (pdfjsViewerConfig.imageDir) {
+            PDFJS.imageResourcesPath = pdfjsViewerConfig.imageDir;
+        }
+        
+        if (pdfjsViewerConfig.disableWorker) {
+            PDFJS.disableWorker = true;
+        }
+    });
+    
+    module.directive('pdfjsViewer', ['$interval', function ($interval) {
         return {
             templateUrl: file.folder + '../../pdf.js-viewer/viewer.html',
             restrict: 'E',
@@ -85,18 +133,6 @@
                 }, function () {
                     if (!$attrs.src) return;
 
-                    if ($attrs.localeDir) {
-                        // not sure how to set locale dir in PDFJS
-                    }
-
-                    if ($attrs.cmapDir) {
-                        PDFJS.cMapUrl = $attrs.cmapDir;
-                    }
-
-                    if ($attrs.imageDir) {
-                        PDFJS.imageResourcesPath = $attrs.imageDir;
-                    }
-
                     if ($attrs.open === 'false') {
                         document.getElementById('openFile').setAttribute('hidden', 'true');
                         document.getElementById('secondaryOpenFile').setAttribute('hidden', 'true');
@@ -145,7 +181,7 @@
         var location = document.createElement("a");
         location.href = href;
 
-        if (!location.host) location.href = location.href; // Weird assigned
+        if (!location.host) location.href = location.href; // Weird assigment
 
         return location;
     }
