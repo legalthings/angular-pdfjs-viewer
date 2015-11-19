@@ -5,6 +5,7 @@
   "license": "MIT",
   "authors": [
     "LegalThings <info@legalthings.net>",
+    "Moesjarraf <moesjarraf@gmail.com>",
     "Arnold Daniels <arnold@jasny.net>"
   ],
   "main": "dist/angular-pdfjs-viewer.js",
