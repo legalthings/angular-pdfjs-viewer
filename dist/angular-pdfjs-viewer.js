@@ -39,7 +39,7 @@
         }
     });
     
-    module.run(function(pdfjsViewerConfig) {
+    module.run(['pdfjsViewerConfig', function(pdfjsViewerConfig) {
         if (pdfjsViewerConfig.workerSrc) {
             PDFJS.workerSrc = pdfjsViewerConfig.workerSrc;
         }
@@ -55,7 +55,7 @@
         if (pdfjsViewerConfig.disableWorker) {
             PDFJS.disableWorker = true;
         }
-    });
+    }]);
     
     module.directive('pdfjsViewer', ['$interval', function ($interval) {
         return {
