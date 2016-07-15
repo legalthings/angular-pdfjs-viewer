@@ -92,7 +92,7 @@
                     var pdfViewer = PDFViewerApplication.pdfViewer;
                     
                     if (pdfViewer) {
-                        if ($scope.scale && $scope.scale !== pdfViewer.currentScale) {
+                        if ($scope.scale !== pdfViewer.currentScale) {
                             loaded = {};
                             numLoaded = 0;
                             $scope.scale = pdfViewer.currentScale;
