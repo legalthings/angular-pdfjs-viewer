@@ -64,7 +64,7 @@
             scope: {
                 onInit: '&',
                 onPageLoad: '&',
-                scale: '=',
+                scale: '=?',
             },
             link: function ($scope, $element, $attrs) {
                 $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
