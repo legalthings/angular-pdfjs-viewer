@@ -3,7 +3,7 @@
   "description": "Embed PDF.js viewer into your angular application",
   "version": "1.0.0",
   "dependencies": {},
-  "license": "proprietary",
+  "license": "MIT",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-replace": "^0.10.2"
