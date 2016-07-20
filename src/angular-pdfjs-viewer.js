@@ -14,7 +14,8 @@
             workerSrc: null,
             cmapDir: null,
             imageResourcesPath: null,
-            disableWorker: false
+            disableWorker: false,
+            verbosity: null
         };
         
         this.setWorkerSrc = function(src) {
@@ -33,6 +34,10 @@
             if (typeof value === 'undefined') value = true;
             config.disableWorker = value;
         }
+        
+        this.setVerbosity = function(level) {
+            config.verbosity = level;
+        };
         
         this.$get = function() {
             return config;
@@ -54,6 +59,12 @@
         
         if (pdfjsViewerConfig.disableWorker) {
             PDFJS.disableWorker = true;
+        }
+
+        if (pdfjsViewerConfig.verbosity !== null) {
+            var level = pdfjsViewerConfig.verbosity;
+            if (typeof level === 'string') level = PDFJS.VERBOSITY_LEVELS[level];
+            PDFJS.verbosity = pdfjsViewerConfig.verbosity;
         }
     }]);
     

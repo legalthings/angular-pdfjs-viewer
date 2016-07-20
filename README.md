@@ -122,6 +122,7 @@ negative effect on the runtime performance.
       pdfjsViewerConfigProvider.setImageDir("/assets/pdf.js-viewer/images");
       
       pdfjsViewerConfigProvider.disableWorker();
+      pdfjsViewerConfigProvider.setVerbosity("infos");  // "errors", "warnings" or "infos"
     });
 
 Note that a number of images used in the PDF.js viewer are loaded by the `viewer.css`. You can't configure these
