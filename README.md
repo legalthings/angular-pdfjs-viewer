@@ -26,7 +26,7 @@ that images, translations and such are being loaded from the `web` folder.
         <link rel="stylesheet" href="bower_components/pdf.js-viewer/viewer.css">
 
         <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-pdfjs/dist/angular-pdfjs-viewer.js"></script>
+        <script src="bower_components/angular-pdfjs-viewer/dist/angular-pdfjs-viewer.js"></script>
         <script src="app.js"></script>
 
         <style>
