@@ -14,7 +14,7 @@
     "url": "git://github.com/legalthings/angular-pdfjs-viewer.git"
   },
   "dependencies": {
-    "angular": "~1.4.3",
+    "angular": "~1.5.8",
     "pdf.js-viewer": "~0.3.0"
   },
   "ignore": [
