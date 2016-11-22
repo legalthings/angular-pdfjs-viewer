@@ -115,9 +115,9 @@
                     var pages = document.querySelectorAll('.page');
                     angular.forEach(pages, function (page) {
                         var element = angular.element(page);
-                        var pageNum = element.data('page-number');
+                        var pageNum = element.attr('data-page-number');
                         
-                        if (!element.data('loaded')) {
+                        if (!element.attr('data-loaded')) {
                             delete loaded[pageNum];
                             return;
                         }
