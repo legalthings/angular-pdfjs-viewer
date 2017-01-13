@@ -64,7 +64,7 @@
         if (pdfjsViewerConfig.verbosity !== null) {
             var level = pdfjsViewerConfig.verbosity;
             if (typeof level === 'string') level = PDFJS.VERBOSITY_LEVELS[level];
-            PDFJS.verbosity = level;
+            PDFJS.verbosity = pdfjsViewerConfig.verbosity;
         }
     }]);
     
@@ -534,6 +534,46 @@
 
                     if ($attrs.height) {
                         document.getElementById('outerContainer').style.height = $attrs.height;
+                    }
+
+                    if ($attrs.buttons) {
+                        var buttons = JSON.parse($attrs.buttons);
+
+                        for (var key in buttons) {
+                            if (buttons.hasOwnProperty(key)) {
+                                var button = document.getElementById(key);
+                                if (button !== null) {
+                                    if (buttons[key] === false) {
+                                        button.setAttribute('hidden', 'true');
+                                    }
+                                }
+                                var buttonSecond = document.getElementById('secondary' + (key.charAt(0).toUpperCase() + key.slice(1)));
+                                if (buttonSecond !== null) {
+                                    if (buttons[key] === false) {
+                                        buttonSecond.setAttribute('hidden', 'true');
+                                    }
+                                }
+
+                                //console.log(document.querySelectorAll('[data-l10n-id="document_properties_version"]')[0].innerHTML);
+                                //console.log(document.querySelectorAll('[data-l10n-id="document_properties_version"]'));
+                                //document.querySelectorAll('[data-l10n-id="document_properties_version"]')[0].innerHTML = "Lululu";
+                            }
+                        }
+                    }
+
+                    if ($attrs.lang) {
+                        var lang = JSON.parse($attrs.lang);
+
+                        for (var key in lang) {
+                            if (lang.hasOwnProperty(key)) {
+                                var items = document.querySelectorAll('[data-l10n-id="'+key+'"]');
+                                for (var i = 0; i < items.length; i++) {
+                                    items[i].innerHTML = lang[key];
+                                    console.log(items[i]);
+                                }
+                                console.log(items);
+                            }
+                        }
                     }
                     
                     PDFJS.webViewerLoad($attrs.src);
