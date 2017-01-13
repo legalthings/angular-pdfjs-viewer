@@ -195,7 +195,18 @@
                             if (lang.hasOwnProperty(key)) {
                                 var items = document.querySelectorAll('[data-l10n-id="'+key+'"]');
                                 for (var i = 0; i < items.length; i++) {
-                                    items[i].innerHTML = lang[key];
+                                    if (items[i].tagName === 'BUTTON') {
+                                        items[i].setAttribute('title', lang[key]);
+                                    } else {
+                                        items[i].innerHTML = lang[key];
+                                    }
+                                    console.log(items[i]);
+                                    
+                                }
+                                var itemsLabel = document.querySelectorAll('[data-l10n-id="' + key + '_label"]');
+                                for (var i = 0; i < itemsLabel.length; i++) {
+                                    itemsLabel[i].setAttribute('title', lang[key]);
+                                    itemsLabel[i].innerHTML = lang[key];
                                 }
                             }
                         }
