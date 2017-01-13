@@ -199,9 +199,7 @@
                                         items[i].setAttribute('title', lang[key]);
                                     } else {
                                         items[i].innerHTML = lang[key];
-                                    }
-                                    console.log(items[i]);
-                                    
+                                    } 
                                 }
                                 var itemsLabel = document.querySelectorAll('[data-l10n-id="' + key + '_label"]');
                                 for (var i = 0; i < itemsLabel.length; i++) {
