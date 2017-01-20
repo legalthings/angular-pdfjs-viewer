@@ -166,9 +166,24 @@
                     if ($attrs.height) {
                         document.getElementById('outerContainer').style.height = $attrs.height;
                     }
+                    
+                    PDFJS.webViewerLoad($attrs.src);
+                });
+            }
+        };
+    }]);
 
-                    if ($attrs.buttons) {
-                        var buttons = JSON.parse($attrs.buttons);
+    module.config(function ($provide) {
+        $provide.decorator('pdfjsViewerDirective', function ($delegate) {
+            var directive = $delegate[0];
+            var link = directive.link;
+
+            directive.compile = function () {
+                return function (scope, element, attrs) {
+                    link.apply(this, arguments);
+
+                    if (attrs.buttons) {
+                        var buttons = JSON.parse(attrs.buttons);
 
                         for (var key in buttons) {
                             if (buttons.hasOwnProperty(key)) {
@@ -188,18 +203,18 @@
                         }
                     }
 
-                    if ($attrs.lang) {
-                        var lang = JSON.parse($attrs.lang);
+                    if (attrs.lang) {
+                        var lang = JSON.parse(attrs.lang);
 
                         for (var key in lang) {
                             if (lang.hasOwnProperty(key)) {
-                                var items = document.querySelectorAll('[data-l10n-id="'+key+'"]');
+                                var items = document.querySelectorAll('[data-l10n-id="' + key + '"]');
                                 for (var i = 0; i < items.length; i++) {
                                     if (items[i].tagName === 'BUTTON') {
                                         items[i].setAttribute('title', lang[key]);
                                     } else {
                                         items[i].innerHTML = lang[key];
-                                    } 
+                                    }
                                 }
                                 var itemsLabel = document.querySelectorAll('[data-l10n-id="' + key + '_label"]');
                                 for (var i = 0; i < itemsLabel.length; i++) {
@@ -209,12 +224,13 @@
                             }
                         }
                     }
-                    
-                    PDFJS.webViewerLoad($attrs.src);
-                });
-            }
-        };
-    }]);
+                };
+            };
+
+            return $delegate;
+        });
+
+    });
 
     // === get current script file ===
     var file = {};
