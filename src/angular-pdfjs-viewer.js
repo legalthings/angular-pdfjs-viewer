@@ -15,7 +15,25 @@
             cmapDir: null,
             imageResourcesPath: null,
             disableWorker: false,
-            verbosity: null
+            verbosity: null,
+            buttons: {
+                sidebarToggle : true,
+                viewFind : true,
+                previous : true,
+                next : true,
+                pageNumberLabel : true,
+                pageNumber : true,
+                numPages : true,
+                zoomOut : true,
+                zoomIn : true,
+                scaleSelectContainer : true,
+                presentationMode : true,
+                openFile : true,
+                print : true,
+                download : true,
+                viewBookmark : true,
+                secondaryToolbarToggle : true
+            }
         };
         
         this.setWorkerSrc = function(src) {
@@ -37,6 +55,19 @@
         
         this.setVerbosity = function(level) {
             config.verbosity = level;
+        };
+
+        this.setButtonsVisibility = function(buttons) {
+            for (var key in buttons) {
+                if (config.buttons.hasOwnProperty(key)) {
+                    if (buttons[key] === false) {
+                        config.buttons[key] = false;
+                    }
+                    else {
+                        config.buttons[key] = true;
+                    }
+                }
+            }
         };
         
         this.$get = function() {
@@ -68,7 +99,7 @@
         }
     }]);
     
-    module.directive('pdfjsViewer', ['$interval', function ($interval) {
+    module.directive('pdfjsViewer', ['$interval', 'pdfjsViewerConfig', function ($interval, pdfjsViewerConfig) {
         return {
             templateUrl: file.folder + '../../pdf.js-viewer/viewer.html',
             restrict: 'E',
@@ -76,6 +107,7 @@
                 onInit: '&',
                 onPageLoad: '&',
                 scale: '=?',
+                buttons: '=?'
             },
             link: function ($scope, $element, $attrs) {
                 $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
@@ -144,20 +176,7 @@
                 }, function () {
                     if (!$attrs.src) return;
 
-                    if ($attrs.open === 'false') {
-                        document.getElementById('openFile').setAttribute('hidden', 'true');
-                        document.getElementById('secondaryOpenFile').setAttribute('hidden', 'true');
-                    }
-
-                    if ($attrs.download === 'false') {
-                        document.getElementById('download').setAttribute('hidden', 'true');
-                        document.getElementById('secondaryDownload').setAttribute('hidden', 'true');
-                    }
-
-                    if ($attrs.print === 'false') {
-                        document.getElementById('print').setAttribute('hidden', 'true');
-                        document.getElementById('secondaryPrint').setAttribute('hidden', 'true');
-                    }
+                    setButtonsVisibility(pdfjsViewerConfig.buttons, $scope.buttons);
 
                     if ($attrs.width) {
                         document.getElementById('outerContainer').style.width = $attrs.width;
@@ -172,6 +191,37 @@
             }
         };
     }]);
+
+    function setButtonsVisibility(defaultButtons, buttons) {
+        for (var key in defaultButtons) {
+            var keyValue = null;
+            if (buttons.hasOwnProperty(key)) {
+                keyValue = buttons[key];
+            }
+            else {
+                keyValue = defaultButtons[key];
+            }
+
+            var button = document.getElementById(key);
+            if (button !== null) {
+                if (keyValue === false) {
+                    button.setAttribute('hidden', 'true');
+                }
+                else {
+                    button.removeAttribute('hidden');
+                }
+            }
+            var buttonSecond = document.getElementById('secondary' + (key.charAt(0).toUpperCase() + key.slice(1)));
+            if (buttonSecond !== null) {
+                if (keyValue === false) {
+                    buttonSecond.setAttribute('hidden', 'true');
+                }
+                else {
+                    button.removeAttribute('hidden');
+                }
+            }
+        }
+    }
 
     // === get current script file ===
     var file = {};

@@ -6,7 +6,7 @@ allows you to scroll through the pdf.
 
 ## Installation
 
-     bower install angular-pdfjs-viewer --save
+     bower install https://github.com/lcaprini/angular-pdfjs-viewer --save
 
 ## Usage
 
@@ -46,7 +46,7 @@ that images, translations and such are being loaded from the `web` folder.
     <body>
         <div class='some-pdf-container'>
             <pdfjs-viewer src="{{ pdf.src }}" scale="scale"
-                          download="true" print="false" open="false"
+                          buttons="buttons"
                           on-init="onInit()" on-page-load="onPageLoad(page)">
             </pdfjs-viewer>
         </div>
@@ -56,9 +56,7 @@ that images, translations and such are being loaded from the `web` folder.
 
 The `scale` attribute can be used to obtain the current scale (zoom level) of the PDF. This is read only.
 
-The directive takes the following optional attributes to modify the toolbar
-
-    download="false" print="false" open="false"
+The directive takes the `buttons` optional attribute to allow show and hide toolbar buttons.
 
 Omitting these attributes will by default show the options in the toolbar.
 
@@ -73,6 +71,12 @@ angular.module('app', ['pdfjsViewer']);
 angular.module('app').controller('AppCtrl', function($scope) {
     $scope.pdf = {
         src: 'example.pdf',
+    };
+
+    $scope.buttons = {
+        previous : false,
+        next : false,
+        print : true
     };
     
     $scope.$watch('scale', function() {
@@ -123,10 +127,32 @@ negative effect on the runtime performance.
       
       pdfjsViewerConfigProvider.disableWorker();
       pdfjsViewerConfigProvider.setVerbosity("infos");  // "errors", "warnings" or "infos"
+
+      pdfjsViewerConfigProvider.setButtonsVisibility({
+          openFile : true,
+          print : false,
+          download : false,
+          viewBookmark : true,
+      });
     });
 
 Note that a number of images used in the PDF.js viewer are loaded by the `viewer.css`. You can't configure these
 through JavaScript. Instead you need to compile the `viewer.less` file as
 
     lessc --global-var='pdfjsImagePath=/assets/pdf.js-viewer/images' viewer.less viewer.css
+
+If you use *Grunt* you can compile `viewer.less` with `modifyVar` attribute:
+
+    less: {
+        options: {
+            modifyVars: {
+                pdfjsImagePath: '"../pdfviewer/images"'
+            },
+            files: {
+                "css/app.css": [
+                    "pdf.js-viewer/viewer.less"
+                ]
+            }
+        }
+    }
 
