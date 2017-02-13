@@ -6,7 +6,7 @@ allows you to scroll through the pdf.
 
 ## Installation
 
-     bower install https://github.com/lcaprini/angular-pdfjs-viewer --save
+     bower install angular-pdfjs-viewer --save
 
 ## Usage
 
