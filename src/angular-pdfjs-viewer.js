@@ -195,7 +195,7 @@
     function setButtonsVisibility(defaultButtons, buttons) {
         for (var key in defaultButtons) {
             var keyValue = null;
-            if (buttons.hasOwnProperty(key)) {
+            if (buttons && buttons.hasOwnProperty(key)) {
                 keyValue = buttons[key];
             }
             else {
