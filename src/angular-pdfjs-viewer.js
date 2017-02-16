@@ -95,7 +95,7 @@
         if (pdfjsViewerConfig.verbosity !== null) {
             var level = pdfjsViewerConfig.verbosity;
             if (typeof level === 'string') level = PDFJS.VERBOSITY_LEVELS[level];
-            PDFJS.verbosity = pdfjsViewerConfig.verbosity;
+            PDFJS.verbosity = level;    
         }
     }]);
     
@@ -175,6 +175,21 @@
                     return $attrs.src;
                 }, function () {
                     if (!$attrs.src) return;
+
+                    // Restored for backward compatibility
+                    if ($attrs.open){
+                        $scope.buttons.openFile = ($attrs.open === 'true');
+                    }
+		
+                    // Restored for backward compatibility
+                    if ($attrs.download) {		
+                        $scope.buttons.download = ($attrs.download === 'true');
+                    }
+
+                    // Restored for backward compatibility
+                    if ($attrs.print) {		
+                        $scope.buttons.print = ($attrs.print === 'true');
+                    }
 
                     setButtonsVisibility(pdfjsViewerConfig.buttons, $scope.buttons);
 
