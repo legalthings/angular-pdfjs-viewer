@@ -178,16 +178,25 @@
 
                     // Restored for backward compatibility
                     if ($attrs.open){
+                        if(!$scope.buttons){
+                            $scope.buttons = {};
+                        }
                         $scope.buttons.openFile = ($attrs.open === 'true');
                     }
 		
                     // Restored for backward compatibility
-                    if ($attrs.download) {		
+                    if ($attrs.download) {
+                        if(!$scope.buttons){
+                            $scope.buttons = {};
+                        }		
                         $scope.buttons.download = ($attrs.download === 'true');
                     }
 
                     // Restored for backward compatibility
-                    if ($attrs.print) {		
+                    if ($attrs.print) {
+                        if(!$scope.buttons){
+                            $scope.buttons = {};
+                        }		
                         $scope.buttons.print = ($attrs.print === 'true');
                     }
 
