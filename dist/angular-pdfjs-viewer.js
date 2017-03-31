@@ -379,6 +379,7 @@
                 onInit: '&',
                 onPageLoad: '&',
                 scale: '=?',
+                src: '='
             },
             link: function ($scope, $element, $attrs) {
                 $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
@@ -386,6 +387,13 @@
                 var initialised = false;
                 var loaded = {};
                 var numLoaded = 0;
+
+                if (!window.PDFJS) {
+                    return console.warn("PDFJS is not set! Make sure that pdf.js is loaded before angular-pdfjs-viewer.js is loaded.");
+                }
+
+                // initialize the pdf viewer with (with empty source)
+                window.PDFJS.webViewerLoad();
 
                 function onPdfInit() {
                     initialised = true;
@@ -403,7 +411,11 @@
                 }
                 
                 var poller = $interval(function () {
-                    var pdfViewer = PDFViewerApplication.pdfViewer;
+                    if (!window.PDFViewerApplication) {
+                        return;
+                    }
+
+                    var pdfViewer = window.PDFViewerApplication.pdfViewer;
                     
                     if (pdfViewer) {
                         if ($scope.scale !== pdfViewer.currentScale) {
@@ -414,7 +426,7 @@
                     } else {
                         console.warn("PDFViewerApplication.pdfViewer is not set");
                     }
-                    
+
                     var pages = document.querySelectorAll('.page');
                     angular.forEach(pages, function (page) {
                         var element = angular.element(page);
@@ -442,11 +454,21 @@
                     $interval.cancel(poller);
                 });
 
+                // watch pdf source
                 $scope.$watch(function () {
-                    return $attrs.src;
-                }, function () {
-                    if (!$attrs.src) return;
+                    return $scope.src
+                }, function (src) {
+                    if (!src) {
+                        return;
+                    }
 
+                    window.PDFViewerApplication.open(src);
+                });
+
+                // watch other attributes
+                $scope.$watch(function () {
+                    return $attrs;
+                }, function () {
                     if ($attrs.open === 'false') {
                         document.getElementById('openFile').setAttribute('hidden', 'true');
                         document.getElementById('secondaryOpenFile').setAttribute('hidden', 'true');
@@ -469,12 +491,8 @@
                     if ($attrs.height) {
                         document.getElementById('outerContainer').style.height = $attrs.height;
                     }
-                    
-                    PDFJS.webViewerLoad($attrs.src);
                 });
             }
         };
     }]);
-
-    // 
 }();

@@ -28,7 +28,11 @@
     </head>
     <body>
         <div class='some-pdf-container'>
-            <pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer>
+            <!-- Example of loading pdf from string -->
+            <pdfjs-viewer src="pdf.srcAsString"></pdfjs-viewer>
+
+            <!-- Example of loading pdf from raw binary data. Note comment upper viewer out if you use the viewer below (multi pdf viewers currently not supported) -->
+            <!-- <pdfjs-viewer src="pdf.srcAsBinary"></pdfjs-viewer> -->
         </div>
     </body>
 </html>

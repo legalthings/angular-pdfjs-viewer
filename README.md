@@ -45,7 +45,7 @@ that images, translations and such are being loaded from the `web` folder.
     </head>
     <body>
         <div class='some-pdf-container'>
-            <pdfjs-viewer src="{{ pdf.src }}" scale="scale"
+            <pdfjs-viewer src="pdf.src" scale="scale"
                           download="true" print="false" open="false"
                           on-init="onInit()" on-page-load="onPageLoad(page)">
             </pdfjs-viewer>
@@ -53,6 +53,10 @@ that images, translations and such are being loaded from the `web` folder.
     </body>
 </html>
 ```
+
+Note that the `src` passed in can be either a string (url that points to the pdf) or raw data, 
+as [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array).
+See the [demo folder](https://github.com/legalthings/angular-pdfjs-viewer/tree/master/demo) for an example of both.
 
 The `scale` attribute can be used to obtain the current scale (zoom level) of the PDF. This is read only.
 
