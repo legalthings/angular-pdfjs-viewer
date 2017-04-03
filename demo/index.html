@@ -28,11 +28,14 @@
     </head>
     <body>
         <div class='some-pdf-container'>
-            <!-- Example of loading pdf from string -->
-            <pdfjs-viewer src="pdf.srcAsString"></pdfjs-viewer>
+            <!-- Example of loading pdf from URL string. Note that this must be an interpolation string -->
+            <pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer>
 
-            <!-- Example of loading pdf from raw binary data. Note comment upper viewer out if you use the viewer below (multi pdf viewers currently not supported) -->
-            <!-- <pdfjs-viewer src="pdf.srcAsBinary"></pdfjs-viewer> -->
+            <!-- 
+                Example of loading pdf from raw binary data. Note that this must be a scope variable.
+                Comment upper viewer out if you use this viewer (because multi pdf viewers are currently not supported)
+            -->
+            <!-- <pdfjs-viewer data="pdf.data"></pdfjs-viewer> -->
         </div>
     </body>
 </html>

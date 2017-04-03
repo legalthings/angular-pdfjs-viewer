@@ -76,7 +76,8 @@
                 onInit: '&',
                 onPageLoad: '&',
                 scale: '=?',
-                src: '='
+                src: '@?',
+                data: '=?'
             },
             link: function ($scope, $element, $attrs) {
                 $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
@@ -152,14 +153,18 @@
                 });
 
                 // watch pdf source
-                $scope.$watch(function () {
-                    return $scope.src
-                }, function (src) {
-                    if (!src) {
+                $scope.$watchGroup([
+                    function () { return $scope.src; },
+                    function () { return $scope.data; }
+                ], function (values) {
+                    var src = values[0];
+                    var data = values[1];
+
+                    if (!src && !data) {
                         return;
                     }
 
-                    window.PDFViewerApplication.open(src);
+                    window.PDFViewerApplication.open(src || data);
                 });
 
                 // watch other attributes
