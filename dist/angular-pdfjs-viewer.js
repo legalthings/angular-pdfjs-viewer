@@ -16,24 +16,7 @@
             imageResourcesPath: null,
             disableWorker: false,
             verbosity: null,
-            buttons: {
-                sidebarToggle : true,
-                viewFind : true,
-                previous : true,
-                next : true,
-                pageNumberLabel : true,
-                pageNumber : true,
-                numPages : true,
-                zoomOut : true,
-                zoomIn : true,
-                scaleSelectContainer : true,
-                presentationMode : true,
-                openFile : true,
-                print : true,
-                download : true,
-                viewBookmark : true,
-                secondaryToolbarToggle : true
-            }
+            buttons: {}
         };
         
         this.setWorkerSrc = function(src) {
@@ -51,7 +34,7 @@
         this.disableWorker = function(value) {
             if (typeof value === 'undefined') value = true;
             config.disableWorker = value;
-        }
+        };
         
         this.setVerbosity = function(level) {
             config.verbosity = level;
@@ -59,14 +42,7 @@
 
         this.setButtonsVisibility = function(buttons) {
             for (var key in buttons) {
-                if (config.buttons.hasOwnProperty(key)) {
-                    if (buttons[key] === false) {
-                        config.buttons[key] = false;
-                    }
-                    else {
-                        config.buttons[key] = true;
-                    }
-                }
+                config.buttons[key] = (buttons[key] === true);
             }
         };
         
@@ -585,17 +561,26 @@
         };
     }]);
 
-    function setButtonsVisibility(defaultButtons, buttons) {
-        for (var key in defaultButtons) {
-            var keyValue = null;
-            if (buttons && buttons.hasOwnProperty(key)) {
-                keyValue = buttons[key];
+    function setButtonsVisibility(defaultButtons, customButtons) {
+
+        // Merge default provider's buttons and custom directive's buttons
+        var allButtons = angular.merge({}, defaultButtons, customButtons);
+        var key;
+        var keyValue;
+        var button;
+        var buttonSecond;
+
+        for (key in allButtons) {
+            keyValue = null;
+            if (allButtons && allButtons.hasOwnProperty(key)) {
+                keyValue = allButtons[key];
             }
             else {
-                keyValue = defaultButtons[key];
+                // Default shows
+                keyValue = true;
             }
 
-            var button = document.getElementById(key);
+            button = document.getElementById(key);
             if (button !== null) {
                 if (keyValue === false) {
                     button.setAttribute('hidden', 'true');
@@ -604,7 +589,8 @@
                     button.removeAttribute('hidden');
                 }
             }
-            var buttonSecond = document.getElementById('secondary' + (key.charAt(0).toUpperCase() + key.slice(1)));
+
+            buttonSecond = document.getElementById('secondary' + (key.charAt(0).toUpperCase() + key.slice(1)));
             if (buttonSecond !== null) {
                 if (keyValue === false) {
                     buttonSecond.setAttribute('hidden', 'true');

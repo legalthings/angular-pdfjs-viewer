@@ -58,6 +58,28 @@ The `scale` attribute can be used to obtain the current scale (zoom level) of th
 
 The directive takes the `buttons` optional attribute to allow show and hide toolbar buttons.
 
+The following lists available buttons do show/hide
+```
+buttons: {
+    sidebarToggle : true,
+    viewFind : true,
+    previous : true,
+    next : true,
+    pageNumberLabel : true,
+    pageNumber : true,
+    numPages : true,
+    zoomOut : true,
+    zoomIn : true,
+    scaleSelectContainer : true,
+    presentationMode : true,
+    openFile : true,
+    print : true,
+    download : true,
+    viewBookmark : true,
+    secondaryToolbarToggle : true
+}
+```
+
 Omitting these attributes will by default show the options in the toolbar.
 
 The `on-init` function is called when PDF.JS is fully loaded. The `on-page-load` function is each time a page is
