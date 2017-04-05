@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": "true",
   "dependencies": {
-    "angular": "~1.5.8",
+    "angular": "^1.5.8",
     "pdf.js-viewer": "~1.6.211"
   }
 }
