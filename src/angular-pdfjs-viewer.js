@@ -173,6 +173,65 @@
         };
     }]);
 
+    module.config(function ($provide) {
+        $provide.decorator('pdfjsViewerDirective', function ($delegate) {
+            var directive = $delegate[0];
+            var link = directive.link;
+
+            directive.compile = function () {
+                return function (scope, element, attrs) {
+                    link.apply(this, arguments);
+
+                    if (attrs.buttons) {
+                        var buttons = JSON.parse(attrs.buttons);
+
+                        for (var key in buttons) {
+                            if (buttons.hasOwnProperty(key)) {
+                                var button = document.getElementById(key);
+                                if (button !== null) {
+                                    if (buttons[key] === false) {
+                                        button.setAttribute('hidden', 'true');
+                                    }
+                                }
+                                var buttonSecond = document.getElementById('secondary' + (key.charAt(0).toUpperCase() + key.slice(1)));
+                                if (buttonSecond !== null) {
+                                    if (buttons[key] === false) {
+                                        buttonSecond.setAttribute('hidden', 'true');
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (attrs.lang) {
+                        var lang = JSON.parse(attrs.lang);
+
+                        for (var key in lang) {
+                            if (lang.hasOwnProperty(key)) {
+                                var items = document.querySelectorAll('[data-l10n-id="' + key + '"]');
+                                for (var i = 0; i < items.length; i++) {
+                                    if (items[i].tagName === 'BUTTON') {
+                                        items[i].setAttribute('title', lang[key]);
+                                    } else {
+                                        items[i].innerHTML = lang[key];
+                                    }
+                                }
+                                var itemsLabel = document.querySelectorAll('[data-l10n-id="' + key + '_label"]');
+                                for (var i = 0; i < itemsLabel.length; i++) {
+                                    itemsLabel[i].setAttribute('title', lang[key]);
+                                    itemsLabel[i].innerHTML = lang[key];
+                                }
+                            }
+                        }
+                    }
+                };
+            };
+
+            return $delegate;
+        });
+
+    });
+
     // === get current script file ===
     var file = {};
     file.scripts = document.querySelectorAll('script[src]');

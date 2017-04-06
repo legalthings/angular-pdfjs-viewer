@@ -8,7 +8,7 @@
     'use strict';
 
     var module = angular.module('pdfjsViewer', []);
-    
+
     module.provider('pdfjsViewerConfig', function() {
         var config = {
             workerSrc: null,
@@ -17,33 +17,33 @@
             disableWorker: false,
             verbosity: null
         };
-        
+
         this.setWorkerSrc = function(src) {
             config.workerSrc = src;
         };
-        
+
         this.setCmapDir = function(dir) {
             config.cmapDir = dir;
         };
-        
+
         this.setImageDir = function(dir) {
             config.imageDir = dir;
         };
-        
+
         this.disableWorker = function(value) {
             if (typeof value === 'undefined') value = true;
             config.disableWorker = value;
         }
-        
+
         this.setVerbosity = function(level) {
             config.verbosity = level;
         };
-        
+
         this.$get = function() {
             return config;
         }
     });
-    
+
     module.run(['pdfjsViewerConfig', function(pdfjsViewerConfig) {
         if (pdfjsViewerConfig.workerSrc) {
             PDFJS.workerSrc = pdfjsViewerConfig.workerSrc;
@@ -56,7 +56,7 @@
         if (pdfjsViewerConfig.imageDir) {
             PDFJS.imageResourcesPath = pdfjsViewerConfig.imageDir;
         }
-        
+
         if (pdfjsViewerConfig.disableWorker) {
             PDFJS.disableWorker = true;
         }
@@ -67,7 +67,7 @@
             PDFJS.verbosity = pdfjsViewerConfig.verbosity;
         }
     }]);
-    
+
     module.directive('pdfjsViewer', ['$interval', function ($interval) {
         return {
             template: '<pdfjs-wrapper>\n' +
@@ -382,18 +382,18 @@
             },
             link: function ($scope, $element, $attrs) {
                 $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
-                
+
                 var initialised = false;
                 var loaded = {};
                 var numLoaded = 0;
 
                 function onPdfInit() {
                     initialised = true;
-                    
+
                     if ($attrs.removeMouseListeners === "true") {
                         window.removeEventListener('DOMMouseScroll', handleMouseWheel);
                         window.removeEventListener('mousewheel', handleMouseWheel);
-                        
+
                         var pages = document.querySelectorAll('.page');
                         angular.forEach(pages, function (page) {
                             angular.element(page).children().css('pointer-events', 'none');
@@ -401,10 +401,10 @@
                     }
                     if ($scope.onInit) $scope.onInit();
                 }
-                
+
                 var poller = $interval(function () {
                     var pdfViewer = PDFViewerApplication.pdfViewer;
-                    
+
                     if (pdfViewer) {
                         if ($scope.scale !== pdfViewer.currentScale) {
                             loaded = {};
@@ -414,25 +414,25 @@
                     } else {
                         console.warn("PDFViewerApplication.pdfViewer is not set");
                     }
-                    
+
                     var pages = document.querySelectorAll('.page');
                     angular.forEach(pages, function (page) {
                         var element = angular.element(page);
                         var pageNum = element.attr('data-page-number');
-                        
+
                         if (!element.attr('data-loaded')) {
                             delete loaded[pageNum];
                             return;
                         }
-                        
+
                         if (pageNum in loaded) return;
 
                         if (!initialised) onPdfInit();
-                        
+
                         if ($scope.onPageLoad) {
                             if ($scope.onPageLoad({page: pageNum}) === false) return;
                         }
-                        
+
                         loaded[pageNum] = true;
                         numLoaded++;
                     });
@@ -469,12 +469,71 @@
                     if ($attrs.height) {
                         document.getElementById('outerContainer').style.height = $attrs.height;
                     }
-                    
+
                     PDFJS.webViewerLoad($attrs.src);
                 });
             }
         };
     }]);
 
-    // 
+    module.config(function ($provide) {
+        $provide.decorator('pdfjsViewerDirective', function ($delegate) {
+            var directive = $delegate[0];
+            var link = directive.link;
+
+            directive.compile = function () {
+                return function (scope, element, attrs) {
+                    link.apply(this, arguments);
+
+                    if (attrs.buttons) {
+                        var buttons = JSON.parse(attrs.buttons);
+
+                        for (var key in buttons) {
+                            if (buttons.hasOwnProperty(key)) {
+                                var button = document.getElementById(key);
+                                if (button !== null) {
+                                    if (buttons[key] === false) {
+                                        button.setAttribute('hidden', 'true');
+                                    }
+                                }
+                                var buttonSecond = document.getElementById('secondary' + (key.charAt(0).toUpperCase() + key.slice(1)));
+                                if (buttonSecond !== null) {
+                                    if (buttons[key] === false) {
+                                        buttonSecond.setAttribute('hidden', 'true');
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (attrs.lang) {
+                        var lang = JSON.parse(attrs.lang);
+
+                        for (var key in lang) {
+                            if (lang.hasOwnProperty(key)) {
+                                var items = document.querySelectorAll('[data-l10n-id="' + key + '"]');
+                                for (var i = 0; i < items.length; i++) {
+                                    if (items[i].tagName === 'BUTTON') {
+                                        items[i].setAttribute('title', lang[key]);
+                                    } else {
+                                        items[i].innerHTML = lang[key];
+                                    }
+                                }
+                                var itemsLabel = document.querySelectorAll('[data-l10n-id="' + key + '_label"]');
+                                for (var i = 0; i < itemsLabel.length; i++) {
+                                    itemsLabel[i].setAttribute('title', lang[key]);
+                                    itemsLabel[i].innerHTML = lang[key];
+                                }
+                            }
+                        }
+                    }
+                };
+            };
+
+            return $delegate;
+        });
+
+    });
+
+    //
 }();
