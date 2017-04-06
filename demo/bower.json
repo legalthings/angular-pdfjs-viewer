@@ -5,6 +5,6 @@
   "private": "true",
   "dependencies": {
     "angular": "^1.5.8",
-    "pdf.js-viewer": "~1.6.210"
+    "pdf.js-viewer": "~1.6.211"
   }
 }
