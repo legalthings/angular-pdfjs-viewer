@@ -33,7 +33,7 @@
         this.disableWorker = function(value) {
             if (typeof value === 'undefined') value = true;
             config.disableWorker = value;
-        }
+        };
         
         this.setVerbosity = function(level) {
             config.verbosity = level;
@@ -394,7 +394,7 @@
                 }
 
                 // initialize the pdf viewer with (with empty source)
-                window.PDFJS.webViewerLoad();
+                window.PDFJS.webViewerLoad("");
 
                 function onPdfInit() {
                     initialised = true;
