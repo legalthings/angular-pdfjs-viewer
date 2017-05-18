@@ -127,7 +127,7 @@ When the scale changes all pages are unloaded, so `on-page-load` will be called 
 _If `onPageLoad()` returns `false`, the page will not be marked as loaded and `onPageLoad` will be called again for that page on the next (200ms) interval._
 
 ```html
-<pdfjs-viewer on-init="$ctrl.onPageLoad()"></pdfjs-viewer>
+<pdfjs-viewer on-page-load="$ctrl.onPageLoad()"></pdfjs-viewer>
 ```
 
 ```javascript
