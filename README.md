@@ -10,6 +10,7 @@ allows you to scroll through the pdf.
 
 ## Installation
      bower install angular-pdfjs-viewer --save
+     npm install angular-pdfjs-viewer --save
 
 ## Usage
 Below you will find a basic example of how the directive can be used.
