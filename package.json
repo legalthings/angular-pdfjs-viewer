@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "dependencies": {},
   "license": "MIT",
+  "main": "dist/angular-pdfjs-viewer.js"
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-replace": "^0.10.2"
