@@ -2,11 +2,16 @@
   "name": "angular-pdfjs-viewer",
   "description": "Embed PDF.js viewer into your angular application",
   "version": "1.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "bower": "^1.8.2"
+  },
   "license": "MIT",
   "main": "dist/angular-pdfjs-viewer.js",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-replace": "^0.10.2"
+  },
+  "scripts": {
+    "postinstall": "bower install"
   }
 }

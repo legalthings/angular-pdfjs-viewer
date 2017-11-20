@@ -1,5 +1,5 @@
 bin/
 node_modules/
-vendor/
+bower_components/
 demo/node_modules/
-demo/vendor/
+demo/bower_components/
