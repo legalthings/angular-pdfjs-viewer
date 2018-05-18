@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     var quoteRegexp = new RegExp('\\' + quoteChar, 'g');
     var trimRegexp = new RegExp('\\s*\\+\\s*\\n' + quoteChar + '$');
     var nlReplace = '\\n' + quoteChar + ' +\n' + quoteChar;
-    return '\'' + content.replace(bsRegexp, '\\\\').replace(quoteRegexp, '\\' + quoteChar).replace(/\r?\n/g, nlReplace).replace(trimRegexp, '');
+    return '\'' + content.replace(bsRegexp, '\\\\').replace(quoteRegexp, '\\' + quoteChar).replace(/\r?\n/g, nlReplace).replace(trimRegexp, '') + '\'';
   };
 
   // Project configuration.
