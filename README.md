@@ -161,8 +161,10 @@ By default the location of PDF.js assets are automatically determined. However i
 locations they may not be found. If so, you can configure these locations.
 
 You may disable using the [Web Workers API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API).
-This is useful if you want to add pdf.worker.js to your concatinated JavaScript file. However this will have a
+This is useful if you want to add pdf.worker.js to your concatenated JavaScript file. However this will have a
 negative effect on the runtime performance.
+
+As part of your build process you might include all your library scripts within a concatenated Javascript file whilst excluding the pdf.worker.js file.  Use setWorkerSrc() to point to the pdf.worker.js script. 
 
     angular.module('app').config(function(pdfjsViewerConfigProvider) {
       pdfjsViewerConfigProvider.setWorkerSrc("/assets/pdf.js-viewer/pdf.worker.js");
