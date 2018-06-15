@@ -63,11 +63,11 @@ The source should point to the URL of a publicly available pdf.
 Note that the `src` must be passed in as an interpolation string.
 
 ```html
-<pdfjs-viewer src="{{ $ctrl.src }}"></pdfjs-viewer>
+<pdfjs-viewer src="{{ pdf.src }}"></pdfjs-viewer>
 ```
 
 ```javascript
-$scope.src = "http://example.com/file.pdf";
+$scope.pdf.src = "http://example.com/file.pdf";
 ```
 ---
 
@@ -77,7 +77,7 @@ a [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 The `data` attribute takes a scope variable as its argument.
 
 ```html
-<pdfjs-viewer data="$ctrl.data"></pdfjs-viewer>
+<pdfjs-viewer data="pdf.data"></pdfjs-viewer>
 ```
 
 ```javascript
@@ -86,7 +86,7 @@ $scope.data = null; // this is loaded async
 $http.get("http://example.com/file.pdf", {
     responseType: 'arraybuffer'
 }).then(function (response) {
-    $scope.data = new Uint8Array(response.data);
+    $scope.pdf.data = new Uint8Array(response.data);
 });
 ```
 ---
@@ -96,7 +96,7 @@ The `scale` attribute can be used to obtain the current scale (zoom level) of th
 The value will be stored in the variable specified. **This is read only**.
 
 ```html
-<pdfjs-viewer scale="$ctrl.scale"></pdfjs-viewer>
+<pdfjs-viewer scale="scale"></pdfjs-viewer>
 ```
 ---
 
@@ -112,7 +112,7 @@ These buttons are by default all visible in the toolbar and can be hidden.
 The `on-init` function is called when PDF.JS is fully loaded.
 
 ```html
-<pdfjs-viewer on-init="$ctrl.onInit()"></pdfjs-viewer>
+<pdfjs-viewer on-init="onInit()"></pdfjs-viewer>
 ```
 
 ```javascript
@@ -128,7 +128,7 @@ When the scale changes all pages are unloaded, so `on-page-load` will be called 
 _If `onPageLoad()` returns `false`, the page will not be marked as loaded and `onPageLoad` will be called again for that page on the next (200ms) interval._
 
 ```html
-<pdfjs-viewer on-page-load="$ctrl.onPageLoad()"></pdfjs-viewer>
+<pdfjs-viewer on-page-load="onPageLoad(page)"></pdfjs-viewer>
 ```
 
 ```javascript
