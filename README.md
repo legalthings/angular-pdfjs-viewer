@@ -4,13 +4,17 @@ Embed Mozilla's [PDF.js](https://mozilla.github.io/pdf.js/) viewer into your ang
 of pdf's we all love. The directive embeds the [full viewer](https://mozilla.github.io/pdf.js/web/viewer.html), which
 allows you to scroll through the pdf.
 
+## Low maintenance
+We're no longer using this library ourselves. We'll merge pull requests and create new releases, but not actively solve
+issues.
 
 ![viewer-example](https://cloud.githubusercontent.com/assets/5793511/24605022/6dd5abee-1867-11e7-881a-0d68dc7c77f3.png)
 
-
 ## Installation
-     bower install angular-pdfjs-viewer --save
      npm install angular-pdfjs-viewer --save
+
+### Browser supperort
+Chrome, FireFox, Safari and Egde.
 
 ## Usage
 Below you will find a basic example of how the directive can be used.
