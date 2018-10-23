@@ -77,7 +77,8 @@
                 onPageLoad: '&',
                 scale: '=?',
                 src: '@?',
-                data: '=?'
+                data: '=?',
+                fileName: '@?'
             },
             link: function ($scope, $element, $attrs) {
                 $element.children().wrap('<div class="pdfjs" style="width: 100%; height: 100%;"></div>');
@@ -163,8 +164,16 @@
                     if (!src && !data) {
                         return;
                     }
-
-                    window.PDFViewerApplication.open(src || data);
+                    if (src) {
+                        window.PDFViewerApplication.open(src);
+                    } else if (data) {
+                        if ($scope.fileName) {
+                            // Passing fileName through url parameter
+                            window.PDFViewerApplication.open(data, {url: $scope.fileName});
+                        } else {
+                            window.PDFViewerApplication.open(data);
+                        }                        
+                    }
                 });
 
                 // watch other attributes
@@ -192,6 +201,10 @@
 
                     if ($attrs.height) {
                         document.getElementById('outerContainer').style.height = $attrs.height;
+                    }
+
+                    if ($attrs.sidebar === 'false') {
+                        document.getElementById('sidebarToggle').setAttribute('hidden', 'true');
                     }
                 });
             }

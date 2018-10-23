@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="app" ng-controller="AppCtrl">
+<html lang="en" data-ng-app="app" ng-controller="AppCtrl" dir="ltr">
     <head>
         <meta charset="utf-8"/>
         <title>Angular PDF.js demo</title>
@@ -33,9 +33,14 @@
 
             <!-- 
                 Example of loading pdf from raw binary data. Note that this must be a scope variable.
+                Passing file name attribute
+            -->
+            <!--<pdfjs-viewer data="pdf.data" file-name="example.pdf"></pdfjs-viewer> -->
+            <!-- 
+                Example of loading pdf from raw binary data. Note that this must be a scope variable.
                 Comment upper viewer out if you use this viewer (because multi pdf viewers are currently not supported)
             -->
-            <!-- <pdfjs-viewer data="pdf.data"></pdfjs-viewer> -->
+            <!--<pdfjs-viewer data="pdf.data"></pdfjs-viewer> -->
         </div>
     </body>
 </html>
